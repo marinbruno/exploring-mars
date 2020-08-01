@@ -5,12 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities" />
-    <Folder Include="Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Class1.cs" />
+    <PackageReference Include="FluentValidation.ValidatorAttribute" Version="8.6.1" />
   </ItemGroup>
 
 </Project>

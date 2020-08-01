@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ExploringMars.Domain.Entities;
 
-namespace ExploringMars.Domain.Services
+namespace ExploringMars.Domain
 {
     public class ProbePathCalculatorService
     {
@@ -13,24 +12,22 @@ namespace ExploringMars.Domain.Services
             string secondProbesStartingDirection, List<string> secondProbesInstructions)
         {
             var plateauLimits = new Position(plateausMeasurement);
-            var firstProbe = new Probe(firstProbesStartingPosition, firstProbesStartingDirection,
-                firstProbesInstructions);
-            var secondProbe = new Probe(secondProbesStartingPosition, secondProbesStartingDirection,
-                secondProbesInstructions);
+            var firstProbe = new Probe(firstProbesStartingPosition, firstProbesStartingDirection);
+            var secondProbe = new Probe(secondProbesStartingPosition, secondProbesStartingDirection);
 
-            firstProbe.Validate();
-            secondProbe.Validate();
+            CalculateProbesPath(firstProbe, plateauLimits, firstProbesInstructions);
+            CalculateProbesPath(secondProbe, plateauLimits, secondProbesInstructions);
 
             return new List<List<string>>
             {
-                CalculateProbesPath(firstProbe, plateauLimits),
-                CalculateProbesPath(firstProbe, plateauLimits)
+                GetProbesLandingPositionsAndDirection(firstProbe),
+                GetProbesLandingPositionsAndDirection(secondProbe)
             };
         }
 
-        private List<string> CalculateProbesPath(Probe probe, Position plateauLimits)
+        private void CalculateProbesPath(Probe probe, Position plateauLimits, List<string> probesInstructions)
         {
-            foreach (var instruction in probe.Instructions)
+            foreach (var instruction in probesInstructions)
             {
                 switch (instruction)
                 {
@@ -45,12 +42,15 @@ namespace ExploringMars.Domain.Services
                         break;
                 }
             }
-            
+        }
+
+        private List<string> GetProbesLandingPositionsAndDirection(Probe probe)
+        {
             return new List<string>
             {
-                probe.Positions.Last().XCoordinate.ToString(),
-                probe.Positions.Last().YCoordinate.ToString(),
-                nameof(probe.CurrentDirection)
+                probe.PositionHistory.Last().XCoordinate.ToString(),
+                probe.PositionHistory.Last().YCoordinate.ToString(),
+                probe.CurrentDirection.ToString()
             };
         }
     }
