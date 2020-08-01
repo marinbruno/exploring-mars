@@ -3,13 +3,13 @@ using FluentValidation;
 
 namespace ExploringMars.Domain.Validators
 {
-    public class NewPositionValidator : AbstractValidator<Position>
+    public class PositionValidator : AbstractValidator<Position>
     {
-        private Position UpperPlateauLimits { get; set; }
+        private Position UpperPlateauLimits { get; }
 
-        private Position LowerPlateauLimits { get; set; } = new Position(new []{0, 0});
+        private Position LowerPlateauLimits { get; } = new Position(new []{0, 0});
 
-        public NewPositionValidator(Position upperPlateauLimits)
+        public PositionValidator(Position upperPlateauLimits)
         {
             UpperPlateauLimits = upperPlateauLimits;
             RuleFor(desiredPosition => desiredPosition).Must(IsValidDesiredPosition);
