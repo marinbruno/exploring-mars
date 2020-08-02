@@ -7,7 +7,7 @@ namespace ExploringMars.Domain
 {
     public class ProbePathCalculatorService
     {
-        public async Task<List<List<string>>> CalculateProbesLandingPositions(List<int> plateausMeasurement,
+        public virtual async Task<List<List<string>>> CalculateProbesLandingPositions(List<int> plateausMeasurement,
             List<int> firstProbesStartingPosition, string firstProbesStartingDirection,
             List<string> firstProbesInstructions, List<int> secondProbesStartingPosition,
             string secondProbesStartingDirection, List<string> secondProbesInstructions)

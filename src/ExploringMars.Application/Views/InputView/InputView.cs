@@ -103,5 +103,20 @@ namespace ExploringMars.Application.Views.InputView
                 throw new InvalidInputException();
             }
         }
+
+        public virtual int CountProbeInputs()
+        {
+            return ProbeInput.Count;
+        }
+
+        public virtual int CountInstructionInputs()
+        {
+            return InstructionsInput.Count;
+        }
+
+        public virtual bool HasPlateausMeasurement()
+        {
+            return PlateausMeasurement.Any();
+        }
     }
 }
