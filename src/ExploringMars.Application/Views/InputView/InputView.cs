@@ -10,11 +10,11 @@ namespace ExploringMars.Application.Views.InputView
 {
     public class InputView
     {
-        public List<int> PlateausMeasurement { get; set; } = new List<int>();
+        public virtual List<int> PlateausMeasurement { get; set; } = new List<int>();
         
-        public List<ProbeInputView> ProbeInput { get; set; } = new List<ProbeInputView>();
+        public virtual List<ProbeInputView> ProbeInput { get; set; } = new List<ProbeInputView>();
         
-        public List<List<string>> InstructionsInput { get; set; } = new List<List<string>>();
+        public virtual List<List<string>> InstructionsInput { get; set; } = new List<List<string>>();
 
         private const string PlateausMeasurementRegexPattern = @"^(?<length>\d+)\s(?<width>\d+)$";
         private const string ProbesStartingSetupRegexPattern = @"^(?<XCoordinate>\d+)\s(?<YCoordinate>\d+)\s(?<direction>[NESW])$";
@@ -27,7 +27,12 @@ namespace ExploringMars.Application.Views.InputView
             _consoleReader = consoleReader;
         }
 
-        public void AskUserForPlateausMeasurement()
+        public InputView()
+        {
+            
+        }
+
+        public virtual void AskUserForPlateausMeasurement()
         {
             Console.WriteLine("Please, enter the length and the width of the plateau as the following example: > 5 5");
             var plateausMeasurementInput = _consoleReader.GetUserInput();
@@ -41,7 +46,7 @@ namespace ExploringMars.Application.Views.InputView
             PlateausMeasurement.Add(width);
         }
 
-        public async Task AskUserForProbesStartingSetup()
+        public virtual async Task AskUserForProbesStartingSetup()
         {
             var probeOrder = ProbeInput.Count < 1 ? "first" : "second";
             
@@ -65,7 +70,7 @@ namespace ExploringMars.Application.Views.InputView
             ProbeInput.Add(probeInput);
         }
 
-        public void AskUserForProbesInstructions()
+        public virtual void AskUserForProbesInstructions()
         {
             var probeOrder = ProbeInput.Count < 1 ? "first" : "second";
             
@@ -78,7 +83,7 @@ namespace ExploringMars.Application.Views.InputView
             InstructionsInput.Add(instructions.Select(c => c.ToString()).ToList());
         }
 
-        private void ValidateInput(string userInput, string regexPattern, out Match regexMatch)
+        public void ValidateInput(string userInput, string regexPattern, out Match regexMatch)
         {
             var regex = new Regex(regexPattern);
             regexMatch = regex.Match(userInput);

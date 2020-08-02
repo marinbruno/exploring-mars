@@ -8,17 +8,15 @@ namespace ExploringMars.Application
 {
     public class Controller
     {
-        private static readonly OutputView OutputView = new OutputView();
-
-        private static readonly ProbePathCalculatorService ProbePathCalculatorService = new ProbePathCalculatorService();
-
         private readonly InputView _inputView;
 
-        public Controller(IConsoleReader consoleReader)
-        {
-            _inputView = new InputView(consoleReader);
-        }
+        private static readonly ProbePathCalculatorService ProbePathCalculatorService = new ProbePathCalculatorService();
         
+        public Controller(IConsoleReader consoleReader, InputView inputView = null)
+        {
+            _inputView = inputView ?? new InputView(consoleReader);
+        }
+
         public async Task GetProbesLandingPositions()
         {
             if (!_inputView.PlateausMeasurement.Any())
