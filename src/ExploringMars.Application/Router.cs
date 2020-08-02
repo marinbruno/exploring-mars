@@ -40,10 +40,10 @@ namespace ExploringMars.Application
             if (isFirstRun)
             {
                 Console.WriteLine("Hello there!\n" +
-                                  "🚀🚀🚀🚀Welcome to the ExploringMars application. I am going to help you find out where your Probes are going to land at the Mars Plateau\n" +
+                                  "Welcome to the ExploringMars application. I am going to help you find out where your Probes are going to land at the Mars Plateau\n" +
                                   "If you want to exit the application, just press CTRL+C or CTRL+Break\n" +
                                   "-----------------\n" +
-                                  "Now, let's start!\n" +
+                                  "Now, let's start! 🚀\n" +
                                   "-----------------\n");
             }
         }

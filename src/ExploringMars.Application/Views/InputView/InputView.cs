@@ -15,8 +15,8 @@ namespace ExploringMars.Application.Views.InputView
         
         public List<List<string>> InstructionsInput { get; set; } = new List<List<string>>();
 
-        private const string PlateausMeasurementRegexPattern = @"^(?<length>\d)\s(?<width>\d)$";
-        private const string ProbesStartingSetupRegexPattern = @"^(?<XCoordinate>\d)\s(?<YCoordinate>\d)\s(?<direction>[NESW])$";
+        private const string PlateausMeasurementRegexPattern = @"^(?<length>\d+)\s(?<width>\d+)$";
+        private const string ProbesStartingSetupRegexPattern = @"^(?<XCoordinate>\d+)\s(?<YCoordinate>\d+)\s(?<direction>[NESW])$";
         private const string ProbesInstructionsRegexPattern = @"^(?<instructions>[LRM]+)$";
 
         private readonly IConsoleReader _consoleReader;

@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+using ExploringMars.Application.Exceptions;
 using ExploringMars.Application.Views.InputView;
+using FluentAssertions;
 using Moq;
 using Xunit;
 
@@ -6,14 +10,96 @@ namespace ExploringMars.UnitTests.Application.ViewTests
 {
     public class InputViewTests
     {
-        private Mock<InputView> _inputView = new Mock<InputView>();
+        private static readonly Mock<TestConsoleReader> ConsoleReader = new Mock<TestConsoleReader>();
 
-        private const string ValidPlateauInput = "1 2";
+        private readonly InputView _inputView = new InputView(ConsoleReader.Object);
+
+        private const int ValidIntegerInput = 1;
+        private const string ValidStringInput = "N";
+        private const string InvalidInput = "#,2";
+        
+        private static readonly string ValidPlateauInput = $"{ValidIntegerInput} {ValidIntegerInput}";
+        private static readonly string ValidProbesStartingSetupInput = $"{ValidIntegerInput} {ValidIntegerInput} {ValidStringInput}";
+        private const string ValidInstructionsInput = "LRMRLRMRLRMRL";
 
         [Fact]
-        public void AskUserForPlateausMeasurement_GivenValidInput_ShouldAddItsLengthAndWidthToPlateausMeasurement()
+        public void AskUserForPlateausMeasurement_GivenValidInput_ShouldAddItsLengthAndWidthToPlateausMeasurementAsExpected()
         {
+            ConsoleReader.Setup(consoleReader => consoleReader.GetUserInput())
+                .Returns(ValidPlateauInput);
+            
+            _inputView.AskUserForPlateausMeasurement();
 
+            _inputView.PlateausMeasurement[0].Should().Be(ValidIntegerInput);
+            _inputView.PlateausMeasurement[1].Should().Be(ValidIntegerInput);
+        }
+        
+        [Fact]
+        public void AskUserForProbesStartingSetup_GivenValidInput_ShouldAddItsPositionAndDirectionToProbesStartingSetupAsExpected()
+        {
+            ConsoleReader.Setup(consoleReader => consoleReader.GetUserInput())
+                .Returns(ValidProbesStartingSetupInput);
+
+            _inputView.PlateausMeasurement = new List<int> {5, 5};
+            _inputView.AskUserForProbesStartingSetup();
+
+            _inputView.ProbeInput.First().Position[0].Should().Be(ValidIntegerInput);
+            _inputView.ProbeInput.First().Position[1].Should().Be(ValidIntegerInput);
+            _inputView.ProbeInput.First().Direction.Should().Be(ValidStringInput);
+        }
+        
+        [Fact]
+        public void AskUserForProbesInstructions_GivenValidInput_ShouldAddItsProbesInstructionsAsExpected()
+        {
+            ConsoleReader.Setup(consoleReader => consoleReader.GetUserInput())
+                .Returns(ValidInstructionsInput);
+
+            _inputView.AskUserForProbesInstructions();
+
+            _inputView.InstructionsInput.First().Should()
+                .BeEquivalentTo(ValidInstructionsInput.Select(c => c.ToString()).ToList());
+        }
+        
+        [Fact]
+        public void AskUserForPlateausMeasurement_GivenInvalidInput_ShouldThrowInvalidInputException()
+        {
+            ConsoleReader.Setup(consoleReader => consoleReader.GetUserInput())
+                .Returns(InvalidInput);
+            
+            _inputView.Invoking(i => i.AskUserForPlateausMeasurement())
+                .Should().Throw<InvalidInputException>();
+        }
+        
+        [Fact]
+        public void AskUserForProbesStartingSetup_GivenInvalidInput_ShouldThrowInvalidInputException()
+        {
+            ConsoleReader.Setup(consoleReader => consoleReader.GetUserInput())
+                .Returns(InvalidInput);
+
+            _inputView.PlateausMeasurement = new List<int> {5, 5};
+            _inputView.Invoking(i => i.AskUserForProbesStartingSetup())
+                .Should().Throw<InvalidInputException>();
+        }
+        
+        [Fact]
+        public void AskUserForProbesStartingSetup_GivenInvalidProbePosition_ShouldThrowInvalidInputException()
+        {
+            ConsoleReader.Setup(consoleReader => consoleReader.GetUserInput())
+                .Returns("10 10");
+
+            _inputView.PlateausMeasurement = new List<int> {5, 5};
+            _inputView.Invoking(i => i.AskUserForProbesStartingSetup())
+                .Should().Throw<InvalidInputException>();
+        }
+        
+        [Fact]
+        public void AskUserForProbesInstructions_GivenInvalidInput_ShouldThrowInvalidInputException()
+        {
+            ConsoleReader.Setup(consoleReader => consoleReader.GetUserInput())
+                .Returns(InvalidInput);
+            
+            _inputView.Invoking(i => i.AskUserForProbesInstructions())
+                .Should().Throw<InvalidInputException>();
         }
     }
 }
