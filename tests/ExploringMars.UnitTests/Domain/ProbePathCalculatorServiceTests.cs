@@ -16,11 +16,11 @@ namespace ExploringMars.UnitTests.Domain
         {
             var plateausMeasurement = new List<int> {5, 5};
             var firstProbesStartingPosition = new List<int> {1, 2};
-            var firstProbesStartingDirection = "N";
+            const string firstProbesStartingDirection = "N";
             var firstProbesInstructions = new List<string> {"L", "M", "L", "M", "L", "M", "L", "M", "M"};
             
             var secondProbesStartingPosition = new List<int> {3, 3};
-            var secondProbesStartingDirection = "E";
+            const string secondProbesStartingDirection = "E";
             var secondProbesInstructions = new List<string> {"M", "M", "R", "M", "M", "R", "M", "R", "R", "M"};
 
             var probesLandingPositions = _probePathCalculatorService.CalculateProbesLandingPositions(

@@ -12,10 +12,10 @@ namespace ExploringMars.Domain.Validators
         public PositionValidator(Position upperPlateauLimits)
         {
             UpperPlateauLimits = upperPlateauLimits;
-            RuleFor(desiredPosition => desiredPosition).Must(IsValidDesiredPosition);
+            RuleFor(desiredPosition => desiredPosition).Must(IsWithinPlateau);
         }
 
-        private bool IsValidDesiredPosition(Position desiredPosition)
+        private bool IsWithinPlateau(Position desiredPosition)
         {
             return desiredPosition.XCoordinate <= UpperPlateauLimits.XCoordinate &&
                    desiredPosition.YCoordinate <= UpperPlateauLimits.YCoordinate &&
