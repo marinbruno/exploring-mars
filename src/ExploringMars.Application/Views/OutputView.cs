@@ -10,11 +10,12 @@ namespace ExploringMars.Application.Views
         {
             var firstProbeLandingPosition = probesLandingPositions.First();
             var secondProbeLandingPosition = probesLandingPositions.Last();
-            
+
             Console.WriteLine("\n***********************************************\n" +
-                              "The probes landing positions are:\n" +
-                              firstProbeLandingPosition + "\n" +
-                              secondProbeLandingPosition);
+                              "The probes landing positions are:\n");
+            
+            Console.WriteLine(firstProbeLandingPosition[0] + " " + firstProbeLandingPosition[1] + " " + firstProbeLandingPosition[2]);
+            Console.WriteLine(secondProbeLandingPosition[0] + " " + secondProbeLandingPosition[1] + " " + secondProbeLandingPosition[2]);
         }
     }
 }

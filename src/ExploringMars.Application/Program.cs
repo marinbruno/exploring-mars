@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace ExploringMars.Application
 {
@@ -6,7 +6,14 @@ namespace ExploringMars.Application
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!🚀🚀🚀🚀");
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton<IRouter, Router>()
+                .AddSingleton<IConsoleReader, ConsoleReader>()
+                .BuildServiceProvider();
+
+            var router = serviceProvider.GetService<IRouter>();
+            
+            router.Run();
         }
     }
 }

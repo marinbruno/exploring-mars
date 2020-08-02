@@ -1,4 +1,12 @@
-$HEADER$namespace $NAMESPACE$
+using ExploringMars.Application;
+
+namespace ExploringMars.UnitTests
 {
-  public class $CLASS$ {$END$}
+    public class TestConsoleReader : ConsoleReader
+    {
+        public override string GetUserInput()
+        {
+            return base.GetUserInput();
+        }
+    }
 }

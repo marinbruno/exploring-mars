@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using ExploringMars.Application.Views;
 using ExploringMars.Application.Views.InputView;
@@ -5,39 +6,47 @@ using ExploringMars.Domain;
 
 namespace ExploringMars.Application
 {
-    public static class Controller
+    public class Controller
     {
-        private static readonly InputView InputView = new InputView();
-        
         private static readonly OutputView OutputView = new OutputView();
 
         private static readonly ProbePathCalculatorService ProbePathCalculatorService = new ProbePathCalculatorService();
+
+        private readonly IConsoleReader _consoleReader;
         
-        public static void GetProbesLandingPositions()
+        private readonly InputView _inputView;
+
+        public Controller(IConsoleReader consoleReader)
         {
-            if (!InputView.PlateausMeasurement.Any())
+            _consoleReader = consoleReader;
+            _inputView = new InputView(_consoleReader);
+        }
+        
+        public void GetProbesLandingPositions()
+        {
+            if (!_inputView.PlateausMeasurement.Any())
             {
-                InputView.AskUserForPlateausMeasurement();
+                _inputView.AskUserForPlateausMeasurement();
             }
 
-            while (InputView.ProbeInput.Count < 2)
+            while (_inputView.ProbeInput.Count < 2)
             {
-                if (InputView.ProbeInput.Count == InputView.InstructionsInput.Count)
+                if (_inputView.ProbeInput.Count == _inputView.InstructionsInput.Count)
                 {
-                    InputView.AskUserForProbesStartingSetup();
+                    _inputView.AskUserForProbesStartingSetup();
                 }
                 
-                if (InputView.InstructionsInput.Count < 2)
+                if (_inputView.InstructionsInput.Count < 2)
                 {
-                    InputView.AskUserForProbesInstructions();
+                    _inputView.AskUserForProbesInstructions();
                 }
             }
             
-            var probesLandingPosition = ProbePathCalculatorService.CalculateProbesLandingPositions(InputView.PlateausMeasurement,
-                    InputView.ProbeInput.First().Position, InputView.ProbeInput.First().Direction,
-                    InputView.InstructionsInput.First(),
-                    InputView.ProbeInput.Last().Position, InputView.ProbeInput.Last().Direction,
-                    InputView.InstructionsInput.Last());
+            var probesLandingPosition = ProbePathCalculatorService.CalculateProbesLandingPositions(_inputView.PlateausMeasurement,
+                    _inputView.ProbeInput.First().Position, _inputView.ProbeInput.First().Direction,
+                    _inputView.InstructionsInput.First(),
+                    _inputView.ProbeInput.Last().Position, _inputView.ProbeInput.Last().Direction,
+                    _inputView.InstructionsInput.Last());
         
             OutputView.AnswerUserProbesLandingPositions(probesLandingPosition);
         }

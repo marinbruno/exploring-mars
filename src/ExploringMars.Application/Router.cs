@@ -6,11 +6,17 @@ namespace ExploringMars.Application
 {
     public class Router : IRouter
     {
-        private readonly AutoResetEvent WaitHandle;
+        private readonly AutoResetEvent _waitHandle;
 
-        public Router()
+        private readonly IConsoleReader _consoleReader;
+
+        private readonly Controller _controller;
+
+        public Router(IConsoleReader consoleReader)
         {
-            WaitHandle =  new AutoResetEvent(false);
+            _waitHandle =  new AutoResetEvent(false);
+            _consoleReader = consoleReader;
+            _controller = new Controller(_consoleReader);
         }
         
         public void Run(bool isFirstRun = true)
@@ -19,7 +25,7 @@ namespace ExploringMars.Application
             {
                 DisplayWelcomeMessage(isFirstRun);
 
-                Controller.GetProbesLandingPositions();
+                _controller.GetProbesLandingPositions();
 
                 WaitCancelKeyPress();
             }
@@ -42,16 +48,16 @@ namespace ExploringMars.Application
             }
         }
 
-        private static void WaitCancelKeyPress()
+        private void WaitCancelKeyPress()
         {
             Console.CancelKeyPress += (o, e) =>
             {
                 Console.WriteLine("Shutting down...");
                 
-                WaitHandle.Set();
+                _waitHandle.Set();
             };
             
-            WaitHandle.WaitOne();
+            _waitHandle.WaitOne();
         }
 
         private static void DisplayInvalidInputMessage()
@@ -61,7 +67,7 @@ namespace ExploringMars.Application
                               "-----------------\n");
         }
 
-        private static void Resume()
+        private void Resume()
         {
             DisplayInvalidInputMessage();
             Run(false);

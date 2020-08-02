@@ -19,7 +19,12 @@ namespace ExploringMars.Application.Views.InputView
         private const string ProbesStartingSetupRegexPattern = @"^(?<XCoordinate>\d)\s(?<YCoordinate>\d)\s(?<direction>[NESW])$";
         private const string ProbesInstructionsRegexPattern = @"^(?<instructions>[LRM]+)$";
 
-        private readonly ConsoleReader _consoleReader = new ConsoleReader();
+        private readonly IConsoleReader _consoleReader;
+
+        public InputView(IConsoleReader consoleReader)
+        {
+            _consoleReader = consoleReader;
+        }
 
         public void AskUserForPlateausMeasurement()
         {
@@ -72,7 +77,7 @@ namespace ExploringMars.Application.Views.InputView
             InstructionsInput.Add(instructions.Select(c => c.ToString()).ToList());
         }
 
-        private static void ValidateInput(string userInput, string regexPattern, out Match regexMatch)
+        private void ValidateInput(string userInput, string regexPattern, out Match regexMatch)
         {
             var regex = new Regex(regexPattern);
             regexMatch = regex.Match(userInput);
