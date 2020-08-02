@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace ExploringMars.Application
 {
     public interface IRouter
     {
-        void Run(bool isFirstRun = true);
+        Task Run(bool isFirstRun = true);
     }
 }

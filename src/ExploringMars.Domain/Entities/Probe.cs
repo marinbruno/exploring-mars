@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ExploringMars.Domain.Entities
 {
@@ -18,7 +19,7 @@ namespace ExploringMars.Domain.Entities
             CurrentDirection = direction;
         }
 
-        public void MoveForward(Position plateauLimits)
+        public async Task MoveForward(Position plateauLimits)
         {
             var currentPosition = PositionHistory.Last();
             var newPosition = new Position(currentPosition);
@@ -26,23 +27,23 @@ namespace ExploringMars.Domain.Entities
             switch (CurrentDirection)
             {
                 case DirectionEnum.N:
-                    AddNewPosition(plateauLimits, newPosition, currentPosition, true);
+                    await AddNewPosition(plateauLimits, newPosition, currentPosition, true);
                     break;
                 case DirectionEnum.W:
-                    AddNewPosition(plateauLimits, newPosition, currentPosition, false);
+                    await AddNewPosition(plateauLimits, newPosition, currentPosition, false);
                     break;
                 case DirectionEnum.S:
-                    AddNewPosition(plateauLimits, newPosition, currentPosition, false);
+                    await AddNewPosition(plateauLimits, newPosition, currentPosition, false);
                     break;
                 case DirectionEnum.E:
-                    AddNewPosition(plateauLimits, newPosition, currentPosition, true);
+                    await AddNewPosition(plateauLimits, newPosition, currentPosition, true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void AddNewPosition(Position plateauLimits, Position newPosition, Position currentPosition, bool isMovingTowardsPlateauLimits)
+        private async Task AddNewPosition(Position plateauLimits, Position newPosition, Position currentPosition, bool isMovingTowardsPlateauLimits)
         {
             switch (CurrentDirection)
             {
@@ -58,7 +59,7 @@ namespace ExploringMars.Domain.Entities
                     throw new ArgumentOutOfRangeException();
             }
 
-            UpdatePositionHistory(newPosition.IsValid(plateauLimits) ? newPosition : currentPosition);
+            UpdatePositionHistory(await newPosition.IsValid(plateauLimits) ? newPosition : currentPosition);
         }
 
         public void RotateLeft()

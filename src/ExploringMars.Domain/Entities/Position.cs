@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExploringMars.Domain.Validators;
 
 namespace ExploringMars.Domain.Entities
@@ -22,9 +23,9 @@ namespace ExploringMars.Domain.Entities
             YCoordinate = position.YCoordinate;
         }
 
-        public bool IsValid(Position upperPlateauLimits)
+        public async Task<bool> IsValid(Position upperPlateauLimits)
         {
-            var validationResult = new PositionValidator(upperPlateauLimits).Validate(this);
+            var validationResult = await new PositionValidator(upperPlateauLimits).ValidateAsync(this);
 
             return validationResult.IsValid;
         }

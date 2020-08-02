@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ExploringMars.Application
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IRouter, Router>()
@@ -13,7 +14,7 @@ namespace ExploringMars.Application
 
             var router = serviceProvider.GetService<IRouter>();
             
-            router.Run();
+            await router.Run();
         }
     }
 }

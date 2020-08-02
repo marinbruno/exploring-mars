@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using ExploringMars.Application.Exceptions;
 using ExploringMars.Application.Validators;
 
@@ -40,7 +41,7 @@ namespace ExploringMars.Application.Views.InputView
             PlateausMeasurement.Add(width);
         }
 
-        public void AskUserForProbesStartingSetup()
+        public async Task AskUserForProbesStartingSetup()
         {
             var probeOrder = ProbeInput.Count < 1 ? "first" : "second";
             
@@ -59,7 +60,7 @@ namespace ExploringMars.Application.Views.InputView
                 Direction = direction
             };
             
-            ValidateProbeInput(probeInput);
+            await ValidateProbeInput(probeInput);
             
             ProbeInput.Add(probeInput);
         }
@@ -88,9 +89,9 @@ namespace ExploringMars.Application.Views.InputView
             }
         }
 
-        private void ValidateProbeInput(ProbeInputView probeInput)
+        private async Task ValidateProbeInput(ProbeInputView probeInput)
         {
-            var validationResult = new InputViewValidator(probeInput).Validate(this);
+            var validationResult = await new InputViewValidator(probeInput).ValidateAsync(this);
 
             if (!validationResult.IsValid)
             {

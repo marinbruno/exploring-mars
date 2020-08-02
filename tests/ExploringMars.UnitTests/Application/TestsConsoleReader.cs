@@ -1,8 +1,8 @@
 using ExploringMars.Application;
 
-namespace ExploringMars.UnitTests
+namespace ExploringMars.UnitTests.Application
 {
-    public abstract class TestConsoleReader : ConsoleReader
+    public abstract class TestsConsoleReader : ConsoleReader
     {
         public override string GetUserInput()
         {

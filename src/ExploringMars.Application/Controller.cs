@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using System.Threading.Tasks;
 using ExploringMars.Application.Views;
 using ExploringMars.Application.Views.InputView;
 using ExploringMars.Domain;
@@ -12,17 +12,14 @@ namespace ExploringMars.Application
 
         private static readonly ProbePathCalculatorService ProbePathCalculatorService = new ProbePathCalculatorService();
 
-        private readonly IConsoleReader _consoleReader;
-        
         private readonly InputView _inputView;
 
         public Controller(IConsoleReader consoleReader)
         {
-            _consoleReader = consoleReader;
-            _inputView = new InputView(_consoleReader);
+            _inputView = new InputView(consoleReader);
         }
         
-        public void GetProbesLandingPositions()
+        public async Task GetProbesLandingPositions()
         {
             if (!_inputView.PlateausMeasurement.Any())
             {
@@ -33,7 +30,7 @@ namespace ExploringMars.Application
             {
                 if (_inputView.ProbeInput.Count == _inputView.InstructionsInput.Count)
                 {
-                    _inputView.AskUserForProbesStartingSetup();
+                    await _inputView.AskUserForProbesStartingSetup();
                 }
                 
                 if (_inputView.InstructionsInput.Count < 2)
@@ -42,7 +39,7 @@ namespace ExploringMars.Application
                 }
             }
             
-            var probesLandingPosition = ProbePathCalculatorService.CalculateProbesLandingPositions(_inputView.PlateausMeasurement,
+            var probesLandingPosition = await ProbePathCalculatorService.CalculateProbesLandingPositions(_inputView.PlateausMeasurement,
                     _inputView.ProbeInput.First().Position, _inputView.ProbeInput.First().Direction,
                     _inputView.InstructionsInput.First(),
                     _inputView.ProbeInput.Last().Position, _inputView.ProbeInput.Last().Direction,

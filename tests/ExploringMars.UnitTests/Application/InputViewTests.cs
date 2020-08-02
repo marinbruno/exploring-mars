@@ -3,24 +3,13 @@ using System.Linq;
 using ExploringMars.Application.Exceptions;
 using ExploringMars.Application.Views.InputView;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
-namespace ExploringMars.UnitTests.Application.ViewTests
+namespace ExploringMars.UnitTests.Application
 {
-    public class InputViewTests
+    public class InputViewTests : TestsRoot
     {
-        private static readonly Mock<TestConsoleReader> ConsoleReader = new Mock<TestConsoleReader>();
-
         private readonly InputView _inputView = new InputView(ConsoleReader.Object);
-
-        private const int ValidIntegerInput = 1;
-        private const string ValidStringInput = "N";
-        private const string InvalidInput = "#,2";
-        
-        private static readonly string ValidPlateauInput = $"{ValidIntegerInput} {ValidIntegerInput}";
-        private static readonly string ValidProbesStartingSetupInput = $"{ValidIntegerInput} {ValidIntegerInput} {ValidStringInput}";
-        private const string ValidInstructionsInput = "LRMRLRMRLRMRL";
 
         [Fact]
         public void AskUserForPlateausMeasurement_GivenValidInput_ShouldAddItsLengthAndWidthToPlateausMeasurementAsExpected()

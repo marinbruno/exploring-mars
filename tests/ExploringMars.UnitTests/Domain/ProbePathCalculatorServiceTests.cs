@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExploringMars.Domain;
 using FluentAssertions;
 using Xunit;
@@ -11,7 +12,7 @@ namespace ExploringMars.UnitTests.Domain
         private readonly ProbePathCalculatorService _probePathCalculatorService = new ProbePathCalculatorService();
         
         [Fact]
-        public void
+        public async Task
             CalculateProbesLandingPositions_GivenValidInput_ShouldReturnItsLandingPositionsAndDirectionsAsExpected()
         {
             var plateausMeasurement = new List<int> {5, 5};
@@ -23,7 +24,7 @@ namespace ExploringMars.UnitTests.Domain
             const string secondProbesStartingDirection = "E";
             var secondProbesInstructions = new List<string> {"M", "M", "R", "M", "M", "R", "M", "R", "R", "M"};
 
-            var probesLandingPositions = _probePathCalculatorService.CalculateProbesLandingPositions(
+            var probesLandingPositions = await _probePathCalculatorService.CalculateProbesLandingPositions(
                 plateausMeasurement, firstProbesStartingPosition, firstProbesStartingDirection, firstProbesInstructions,
                 secondProbesStartingPosition, secondProbesStartingDirection, secondProbesInstructions);
 

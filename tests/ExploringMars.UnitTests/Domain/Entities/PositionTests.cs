@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExploringMars.Domain.Entities;
 using FluentAssertions;
 using Xunit;
@@ -61,21 +62,21 @@ namespace ExploringMars.UnitTests.Domain.Entities
         }
 
         [Fact]
-        public void IsValid_GivenAnInvalidPosition_ShouldReturnFalse()
+        public async Task IsValid_GivenAnInvalidPosition_ShouldReturnFalse()
         {
             var plateauLimits = new Position(ReferencePosition);
             plateauLimits.MoveLengthwise(false);
-            var isValid = ReferencePosition.IsValid(plateauLimits);
+            var isValid = await ReferencePosition.IsValid(plateauLimits);
 
             isValid.Should().BeFalse();
         }
         
         [Fact]
-        public void IsValid_GivenAValidPosition_ShouldReturnTrue()
+        public async Task IsValid_GivenAValidPosition_ShouldReturnTrue()
         {
             var plateauLimits = new Position(ReferencePosition);
             plateauLimits.MoveLengthwise(true);
-            var isValid = ReferencePosition.IsValid(plateauLimits);
+            var isValid = await ReferencePosition.IsValid(plateauLimits);
 
             isValid.Should().BeTrue();
         }

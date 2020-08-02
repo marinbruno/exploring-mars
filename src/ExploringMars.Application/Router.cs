@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using ExploringMars.Application.Exceptions;
 
 namespace ExploringMars.Application
@@ -8,30 +9,27 @@ namespace ExploringMars.Application
     {
         private readonly AutoResetEvent _waitHandle;
 
-        private readonly IConsoleReader _consoleReader;
-
         private readonly Controller _controller;
 
         public Router(IConsoleReader consoleReader)
         {
             _waitHandle =  new AutoResetEvent(false);
-            _consoleReader = consoleReader;
-            _controller = new Controller(_consoleReader);
+            _controller = new Controller(consoleReader);
         }
         
-        public void Run(bool isFirstRun = true)
+        public async Task Run(bool isFirstRun = true)
         {
             try
             {
                 DisplayWelcomeMessage(isFirstRun);
 
-                _controller.GetProbesLandingPositions();
+                await _controller.GetProbesLandingPositions();
 
                 WaitCancelKeyPress();
             }
             catch (InvalidInputException)
             {
-                Resume();
+                await Resume();
             }
         }
 
@@ -67,10 +65,10 @@ namespace ExploringMars.Application
                               "-----------------\n");
         }
 
-        private void Resume()
+        private async Task Resume()
         {
             DisplayInvalidInputMessage();
-            Run(false);
+            await Run(false);
         }
     }
 }
