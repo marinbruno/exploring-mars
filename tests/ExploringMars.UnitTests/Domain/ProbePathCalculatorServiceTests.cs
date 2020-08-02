@@ -13,7 +13,7 @@ namespace ExploringMars.UnitTests.Domain
         
         [Fact]
         public async Task
-            CalculateProbesLandingPositions_GivenValidInput_ShouldReturnItsLandingPositionsAndDirectionsAsExpected()
+            CalculateProbesLandingPositions_GivenFirstTestScenario_ShouldReturnItsLandingPositionsAndDirectionsAsExpected() 
         {
             var plateausMeasurement = new List<int> {5, 5};
             var firstProbesStartingPosition = new List<int> {1, 2};
@@ -42,6 +42,40 @@ namespace ExploringMars.UnitTests.Domain
             firstProbeDirection.Should().Be("N");
             secondProbeXCoordinate.Should().Be("5");
             secondProbeYCoordinate.Should().Be("1");
+            secondProbeDirection.Should().Be("E");
+        }
+        
+        [Fact]
+        public async Task
+            CalculateProbesLandingPositions_GivenSecondTestScenario_ShouldReturnItsLandingPositionsAndDirectionsAsExpected() 
+        {
+            var plateausMeasurement = new List<int> {5, 5};
+            var firstProbesStartingPosition = new List<int> {2, 2};
+            const string firstProbesStartingDirection = "S";
+            var firstProbesInstructions = new List<string> {"M", "M", "M", "M", "M", "M", "M", "M", "M"};
+            
+            var secondProbesStartingPosition = new List<int> {3, 3};
+            const string secondProbesStartingDirection = "E";
+            var secondProbesInstructions = new List<string> {"M", "M", "M", "M", "M", "M", "M", "M", "M", "M"};
+
+            var probesLandingPositions = await _probePathCalculatorService.CalculateProbesLandingPositions(
+                plateausMeasurement, firstProbesStartingPosition, firstProbesStartingDirection, firstProbesInstructions,
+                secondProbesStartingPosition, secondProbesStartingDirection, secondProbesInstructions);
+
+            var firstProbeXCoordinate = probesLandingPositions.First()[0];
+            var firstProbeYCoordinate = probesLandingPositions.First()[1];
+            var firstProbeDirection = probesLandingPositions.First()[2];
+            
+            var secondProbeXCoordinate = probesLandingPositions.Last()[0];
+            var secondProbeYCoordinate = probesLandingPositions.Last()[1];
+            var secondProbeDirection = probesLandingPositions.Last()[2];
+
+            probesLandingPositions.Should().BeOfType<List<List<string>>>();
+            firstProbeXCoordinate.Should().Be("2");
+            firstProbeYCoordinate.Should().Be("0");
+            firstProbeDirection.Should().Be("S");
+            secondProbeXCoordinate.Should().Be("5");
+            secondProbeYCoordinate.Should().Be("3");
             secondProbeDirection.Should().Be("E");
         }
     }
