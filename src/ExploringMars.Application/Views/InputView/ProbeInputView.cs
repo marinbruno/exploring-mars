@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ExploringMars.Application.Views
+namespace ExploringMars.Application.Views.InputView
 {
     public class ProbeInputView
     {
