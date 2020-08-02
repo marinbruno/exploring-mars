@@ -49,8 +49,8 @@ namespace ExploringMars.Domain
         {
             return new List<string>
             {
-                probe.PositionHistory.Last().XCoordinate.ToString(),
-                probe.PositionHistory.Last().YCoordinate.ToString(),
+                probe.PositionHistory.Positions.Last().XCoordinate.ToString(),
+                probe.PositionHistory.Positions.Last().YCoordinate.ToString(),
                 probe.CurrentDirection.ToString()
             };
         }

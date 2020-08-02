@@ -7,13 +7,13 @@ namespace ExploringMars.Domain.Entities
 {
     public class Probe
     {
-        public List<Position> PositionHistory { get; }
+        public PositionHistory PositionHistory { get; } = new PositionHistory();
         
         public DirectionEnum CurrentDirection { get; set; }
         
         public Probe(IReadOnlyCollection<int> coordinates, string startingDirection)
         {
-            PositionHistory = new List<Position> {new Position(coordinates)};
+            PositionHistory.AddPosition(new Position(coordinates));
             
             Enum.TryParse(startingDirection, out DirectionEnum direction);
             CurrentDirection = direction;
@@ -21,7 +21,7 @@ namespace ExploringMars.Domain.Entities
 
         public async Task MoveForward(Position plateauLimits)
         {
-            var currentPosition = PositionHistory.Last();
+            var currentPosition = PositionHistory.Positions.Last();
             var newPosition = new Position(currentPosition);
 
             switch (CurrentDirection)
@@ -59,7 +59,7 @@ namespace ExploringMars.Domain.Entities
                     throw new ArgumentOutOfRangeException();
             }
 
-            UpdatePositionHistory(await newPosition.IsValid(plateauLimits) ? newPosition : currentPosition);
+            PositionHistory.AddPosition(await newPosition.IsValid(plateauLimits) ? newPosition : currentPosition);
         }
 
         public void RotateLeft()
@@ -70,11 +70,6 @@ namespace ExploringMars.Domain.Entities
         public void RotateRight()
         {
             UpdateCurrentDirection(false);
-        }
-
-        private void UpdatePositionHistory(Position newPosition)
-        {
-            PositionHistory.Add(newPosition);
         }
 
         private void UpdateCurrentDirection(bool isCounterClockwise)
