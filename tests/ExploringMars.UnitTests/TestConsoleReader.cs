@@ -2,7 +2,7 @@ using ExploringMars.Application;
 
 namespace ExploringMars.UnitTests
 {
-    public class TestConsoleReader : ConsoleReader
+    public abstract class TestConsoleReader : ConsoleReader
     {
         public override string GetUserInput()
         {
