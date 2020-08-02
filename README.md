@@ -10,7 +10,11 @@
     .NET Core application that helps users land their probes at Mars' plateaus.
 </h5>
 
-[![](https://img.shields.io/badge/.NET%20Core-v3.1-blueviolet)](https://dotnet.microsoft.com/download)
+<p align="center">
+    <a href="https://dotnet.microsoft.com/download">
+        <img src="https://img.shields.io/badge/.NET%20Core-v3.1-blueviolet">
+    </a>
+</p>
 
 # Table of Contents
 
