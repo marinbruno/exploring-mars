@@ -16,6 +16,21 @@ namespace ExploringMars.UnitTests.Application
         {
             var inputView = new Mock<InputView>();
             var controller = new Controller(ConsoleReader.Object, inputView.Object);
+            var probeService = new Mock<ProbePathCalculatorService>();
+            var probeInputView = BuildProbeInputView();
+            inputView.Setup(i => i.PlateausMeasurement)
+                .Returns(new List<int> {5, 5});
+            inputView.Setup(i => i.ProbeInput)
+                .Returns(new List<ProbeInputView> {probeInputView, probeInputView});
+            inputView.Setup(i => i.InstructionsInput)
+                .Returns(new List<List<string>>() {new List<string>() {"M"}});
+            inputView.Setup(i => i.CountProbeInputs())
+                .Returns(2);
+            inputView.Setup(i => i.CountInstructionInputs())
+                .Returns(2);
+            probeService.Setup(p => p.CalculateProbesLandingPositions(
+                    It.IsAny<List<int>>(), It.IsAny<List<int>>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<List<int>>(), It.IsAny<string>(), It.IsAny<List<string>>()))
+                .ReturnsAsync(new List<List<string>>());
             
             await controller.GetProbesLandingPositions();
             
