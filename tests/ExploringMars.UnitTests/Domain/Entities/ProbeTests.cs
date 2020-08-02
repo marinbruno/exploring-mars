@@ -23,8 +23,8 @@ namespace ExploringMars.UnitTests.Domain.Entities
             var probe = new Probe(ListOfIntegers, startingDirection);
             Enum.TryParse(startingDirection, out DirectionEnum direction);
 
-            probe.PositionHistory.First().XCoordinate.Should().Be(ListOfIntegers[0]);
-            probe.PositionHistory.First().YCoordinate.Should().Be(ListOfIntegers[1]);
+            probe.PositionHistory.Positions.First().XCoordinate.Should().Be(ListOfIntegers[0]);
+            probe.PositionHistory.Positions.First().YCoordinate.Should().Be(ListOfIntegers[1]);
             probe.CurrentDirection.Should().Be(direction);
         }
 
@@ -70,8 +70,8 @@ namespace ExploringMars.UnitTests.Domain.Entities
             
             probe.MoveForward(plateauLimits);
 
-            probe.PositionHistory.First().XCoordinate.Should().Be(probe.PositionHistory.Last().XCoordinate);
-            probe.PositionHistory.First().YCoordinate.Should().Be(probe.PositionHistory.Last().YCoordinate);
+            probe.PositionHistory.Positions.First().XCoordinate.Should().Be(probe.PositionHistory.Positions.Last().XCoordinate);
+            probe.PositionHistory.Positions.First().YCoordinate.Should().Be(probe.PositionHistory.Positions.Last().YCoordinate);
         }
 
         [Theory]
@@ -87,8 +87,8 @@ namespace ExploringMars.UnitTests.Domain.Entities
             
             probe.MoveForward(plateauLimits);
 
-            probe.PositionHistory.Last().XCoordinate.Should().Be(lastXCoordinate);
-            probe.PositionHistory.Last().YCoordinate.Should().Be(lastYCoordinate);
+            probe.PositionHistory.Positions.Last().XCoordinate.Should().Be(lastXCoordinate);
+            probe.PositionHistory.Positions.Last().YCoordinate.Should().Be(lastYCoordinate);
         }
     }
 }
