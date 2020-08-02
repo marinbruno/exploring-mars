@@ -90,5 +90,37 @@ namespace ExploringMars.UnitTests.Application
             _inputView.Invoking(i => i.AskUserForProbesInstructions())
                 .Should().Throw<InvalidInputException>();
         }
+
+        [Fact]
+        public void CountProbeInputs_GivenTwoProbes_ShouldReturnTwo()
+        {
+            _inputView.ProbeInput = new List<ProbeInputView>
+            {
+                new ProbeInputView(),
+                new ProbeInputView()
+            };
+
+            _inputView.CountProbeInputs().Should().Be(2);
+        }
+
+        [Fact]
+        public void CountInstructionInputs_GivenTwoInstructions_ShouldReturnTwo()
+        {
+            _inputView.InstructionsInput = new List<List<string>>
+            {
+                new List<string>(),
+                new List<string>()
+            };
+
+            _inputView.CountInstructionInputs().Should().Be(2);
+        }
+
+        [Fact]
+        public void HasPlateausMeasurement_GivenAPlateauMeasurement_ShouldReturnTrue()
+        {
+            _inputView.PlateausMeasurement = new List<int>(){5, 5};
+
+            _inputView.HasPlateausMeasurement().Should().BeTrue();
+        }
     }
 }

@@ -19,19 +19,19 @@ namespace ExploringMars.Application
 
         public async Task GetProbesLandingPositions()
         {
-            if (!_inputView.PlateausMeasurement.Any())
+            if (!_inputView.HasPlateausMeasurement())
             {
                 _inputView.AskUserForPlateausMeasurement();
             }
 
-            while (_inputView.ProbeInput.Count < 2)
+            while (_inputView.CountProbeInputs() < 2)
             {
-                if (_inputView.ProbeInput.Count == _inputView.InstructionsInput.Count)
+                if (_inputView.CountProbeInputs() == _inputView.CountInstructionInputs())
                 {
                     await _inputView.AskUserForProbesStartingSetup();
                 }
                 
-                if (_inputView.InstructionsInput.Count < 2)
+                if (_inputView.CountInstructionInputs() < 2)
                 {
                     _inputView.AskUserForProbesInstructions();
                 }
