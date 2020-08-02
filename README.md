@@ -44,8 +44,15 @@ The following libraries are used at this application:
 1. Install .NET Core v3.1+
 
 2. Clone the repo and `cd` into it
+```sh
+git clone git@github.com:marinbruno/exploring-mars.git
+cd exploring-mars
+```
 
 3. Restore solution's packages
+```sh
+dotnet restore ExploringMars.sln
+```
 
 ## Usage
 Before we run the application, there a few things you should know.
