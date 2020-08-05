@@ -72,9 +72,9 @@ namespace ExploringMars.Application.Views.InputView
 
         public virtual void AskUserForProbesInstructions()
         {
-            var probeOrder = ProbeInput.Count < 1 ? "first" : "second";
+            var instructionOrder = InstructionsInput.Count < 1 ? "first" : "second";
             
-            Console.WriteLine($"Now, enter the {probeOrder} probe's instructions.");
+            Console.WriteLine($"Now, enter the {instructionOrder} probe's instructions.");
             var probesInstructionsInput = _consoleReader.GetUserInput();
 
             ValidateInput(probesInstructionsInput, ProbesInstructionsRegexPattern, out var regexMatch);
